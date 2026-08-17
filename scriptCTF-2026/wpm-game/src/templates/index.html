@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wpm</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #1a1a1a;
+      --muted: #9a9a9a;
+      --accent: #2563eb;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111113;
+        --fg: #e8e8e8;
+        --muted: #6b6b6b;
+        --accent: #60a5fa;
+        --good: #4ade80;
+        --bad: #f87171;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    main { width: min(680px, 90vw); }
+    h1 {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: lowercase;
+    }
+    #target {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin: 1.5rem 0;
+      user-select: none;
+    }
+    #target span.done { color: var(--good); }
+    #target span.wrong { color: var(--bad); text-decoration: underline; }
+    #target span.pending { color: var(--muted); }
+    #input {
+      width: 100%;
+      font: inherit;
+      font-size: 1.15rem;
+      padding: 0.75rem;
+      border: 1px solid var(--muted);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--fg);
+      outline: none;
+    }
+    #input:focus { border-color: var(--accent); }
+    #result {
+      margin-top: 2rem;
+      text-align: center;
+      display: none;
+    }
+    #result .wpm { font-size: 3rem; }
+    #result .verdict { color: var(--accent); margin-top: 0.25rem; font-size: 1.2rem; }
+    #retry {
+      margin-top: 1.5rem;
+      font: inherit;
+      background: none;
+      border: 1px solid var(--muted);
+      border-radius: 6px;
+      color: var(--fg);
+      padding: 0.5rem 1.25rem;
+      cursor: pointer;
+    }
+    #retry:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>type the text below</h1>
+  <p id="target"></p>
+  <input id="input" autocomplete="off" autocapitalize="off" spellcheck="false"
+         placeholder="start typing to begin the timer" autofocus>
+  <div id="result">
+    <div class="wpm"><span id="wpm">0</span> wpm</div>
+    <div class="verdict" id="verdict"></div>
+    <button id="retry">try again</button>
+  </div>
+</main>
+
+<script>
+  const text = {{ sentence|tojson }};
+  const target = document.getElementById("target");
+  const input = document.getElementById("input");
+  const result = document.getElementById("result");
+
+  // Render each character as a span so we can color progress.
+  for (const ch of text) {
+    const s = document.createElement("span");
+    s.textContent = ch;
+    s.className = "pending";
+    target.appendChild(s);
+  }
+  const spans = target.children;
+
+  let startTime = null;
+
+  input.addEventListener("input", async () => {
+    if (startTime === null) startTime = performance.now();
+    const typed = input.value;
+
+    for (let i = 0; i < text.length; i++) {
+      if (i >= typed.length) spans[i].className = "pending";
+      else spans[i].className = typed[i] === text[i] ? "done" : "wrong";
+    }
+
+    if (typed === text) {
+      const minutes = (performance.now() - startTime) / 60000;
+      const wpm = (text.length / 5) / minutes;
+      input.disabled = true;
+      const res = await fetch(`/rate?wpm=${wpm}`);
+      const data = await res.json();
+      document.getElementById("wpm").textContent = data.wpm;
+      document.getElementById("verdict").textContent = data.verdict;
+      result.style.display = "block";
+    }
+  });
+
+  document.getElementById("retry").addEventListener("click", () => location.reload());
+</script>
+</body>
+</html>
