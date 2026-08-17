@@ -1,0 +1,71 @@
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.ovpn
+*.confidential
+credentials*
+secrets*
+
+# Exploit output and crash artifacts
+core
+core.*
+*.core
+*.dmp
+*.log
+*.pid
+*.gdb_history
+.gdb_history
+peda-session-*
+
+# Python tooling
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build artifacts
+build/
+dist/
+*.o
+*.so
+*.out
+
+# Reverse-engineering projects
+*.i64
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+*.rep
+*.frida
+.ghidra/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Local notes that are not ready to publish
+private/
+drafts/
