@@ -18,7 +18,7 @@ why an exploit worked, and what defenders can learn from the vulnerability.
 
 | Machine | OS | Difficulty | Key topics | Writeup |
 | --- | --- | --- | --- | --- |
-| Cohort | Linux (Ubuntu) | — | API enumeration, command injection, PackageKit TOCTOU race | [Read](htb/machines/cohort/) |
+| Cohort | Linux (Ubuntu) | Easy | API enumeration, command injection, PackageKit TOCTOU race | [Read](htb/machines/cohort/) |
 | Nexus | Linux (Ubuntu) | Easy | Git history secrets, authenticated file upload, password reuse, path traversal | [Read](htb/machines/nexus/) |
 
 ### Hack The Box challenges
