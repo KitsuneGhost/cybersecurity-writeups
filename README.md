@@ -18,30 +18,46 @@ why an exploit worked, and what defenders can learn from the vulnerability.
 
 | Machine | OS | Difficulty | Key topics | Writeup |
 | --- | --- | --- | --- | --- |
-| _Coming soon_ | — | — | — | — |
+| Cohort | Linux (Ubuntu) | — | API enumeration, command injection, PackageKit TOCTOU race | [Read](htb/machines/cohort/) |
+| Nexus | Linux (Ubuntu) | Easy | Git history secrets, authenticated file upload, password reuse, path traversal | [Read](htb/machines/nexus/) |
 
-### Pwn challenges
+### Hack The Box challenges
 
-| Challenge | Event / Platform | Architecture | Mitigations | Writeup |
+| Challenge | Category | Difficulty | Key topics | Writeup |
 | --- | --- | --- | --- | --- |
-| _Coming soon_ | — | — | — | — |
+| RAuth | Reversing | Easy | Binary patching, Salsa20, XMM constant extraction | [Read](htb/challenges/rauth/) |
+
+### CTF challenges
+
+| Challenge | Event | Category | Key topics | Writeup |
+| --- | --- | --- | --- | --- |
+| wpm-game | scriptCTF 2026 | Web | Python `eval()` injection, blacklist bypass, error-based file disclosure | [Read](scriptCTF-2026/wpm-game/) |
+| F**K | scriptCTF 2026 | Reversing | Brainfuck analysis, instruction-count side channel, automated recovery | [Read](scriptCTF-2026/F%2A%2AK/) |
+| Diabolical | scriptCTF 2026 | Reversing | Static analysis, embedded data, Base64 decoding | [Read](scriptCTF-2026/diabolical/) |
 
 ## Repository structure
 
 ```text
 .
 ├── htb/
+│   ├── challenges/
+│   │   └── rauth/
 │   └── machines/
-├── pwn/
-├── assets/
+│       ├── cohort/
+│       └── nexus/
+├── scriptCTF-2026/
+│   ├── diabolical/
+│   ├── F**K/
+│   └── wpm-game/
 └── templates/
     ├── htb-machine-template.md
     └── pwn-template.md
 ```
 
 - `htb/machines/` contains retired Hack The Box machine writeups.
-- `pwn/` contains binary-exploitation challenge writeups and supporting code.
-- `assets/` contains sanitized screenshots and diagrams.
+- `htb/challenges/` contains standalone Hack The Box challenge writeups.
+- `scriptCTF-2026/` contains challenge writeups and supporting exploit code from
+  scriptCTF 2026.
 - `templates/` contains reusable outlines for new writeups.
 
 ## Principles
